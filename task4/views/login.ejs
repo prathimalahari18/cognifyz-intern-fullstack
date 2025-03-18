@@ -1,0 +1,259 @@
+<% layout('boilerplate') -%>
+    <style>
+        .form-container {
+            background: #e0e0e0;
+            box-shadow: 20px 20px 60px #bebebe,
+                -20px -20px 60px #ffffff;
+            margin: auto;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px 30px;
+            border-radius: 10px;
+        }
+
+        .form-container h1 {
+            font-weight: 600;
+            text-align: center;
+        }
+
+        div {
+            margin-block: 1rem;
+        }
+
+        label {
+            font-size: 16px;
+            display: block;
+            font-size: 1.25rem;
+            opacity: .9;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 5px 10px;
+            font-size: 1.24em;
+            margin-top: 5px;
+        }
+
+        ::placeholder {
+            font-size: 1rem;
+        }
+
+        .book-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 5px;
+        }
+
+        .book-container div {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: .2rem;
+        }
+
+        .book-container input {
+            margin: 0;
+        }
+
+        button {
+            background-color: dodgerblue;
+            border: 2px black solid;
+            color: white;
+            font-size: 1.6rem;
+            border-radius: 5px;
+            padding: 5px 2rem;
+            cursor: pointer;
+            width: 100%;
+            display: block;
+            transition: all .3s ease linear;
+        }
+
+        button:hover {
+            border: 2px blue solid;
+            background-color: rgb(40, 130, 220);
+        }
+
+        .switch {
+            text-align: center;
+            color: blue;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-top: 8px;
+            font-weight: 400;
+            color: rgb(231, 75, 75);
+            font-family: sans-serif;
+        }
+
+        .ring:focus {
+            outline: solid 2px rgb(203, 67, 95);
+        }
+
+        .line {
+            padding: 2px;
+            background-color: crimson;
+            margin: auto;
+            width: 60%;
+            animation: grow 3s ease-out .2s infinite;
+        }
+
+        @keyframes grow {
+            0% {
+                opacity: 0;
+                width: 0;
+            }
+
+            30% {
+                width: 50%;
+                opacity: .9;
+            }
+
+            50% {
+                width: 30%;
+                opacity: .7;
+            }
+
+            70% {
+                width: 50%;
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                width: 0;
+            }
+        }
+    </style>
+
+    <div class="form-container" id="create-new">
+        <h1 id="heading">Welcome Back!</h1>
+        <div class="line"></div>
+
+        <a href="/sign-up">
+            <p class="switch">Don't have a account ? Sign up</p>
+        </a>
+
+        <form id="formm" method="post" action="/login" onsubmit="return validate()">
+            <div>
+                <label for="username">Username</label>
+                <input type="text" name="username" placeholder="Enter your Username ..." id="username" />
+                <p></p>
+            </div>
+
+            <div>
+                <label for="password">Password</label>
+                <input type="text" name="password" placeholder="Enter your Password..." id="password" />
+                <p></p>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+
+    <script>
+        let password = document.getElementById("password");
+        let uname = document.getElementById("username");
+
+        function validate() {
+            try {
+                let usernameValidation = validateUsername();
+                let passwordValidation = validatePassword();
+
+                return usernameValidation && passwordValidation;
+            } catch (error) {
+                console.log(error)
+            }
+
+            return false
+        }
+
+        function validateUsername() {
+            let flag = true;
+            if (uname.value === "") {
+                uname.classList.add("ring");
+                uname.nextElementSibling.innerHTML = "*Username is empty!"
+                flag = false;
+            } else if (uname.value.length < 3) {
+                uname.classList.add("ring")
+                uname.nextElementSibling.innerHTML = "*Minimum three letters required"
+                flag = false;
+            } else {
+                flag = true;
+                uname.classList.remove("ring")
+                uname.nextElementSibling.innerHTML = ""
+            }
+            return flag
+        }
+
+        function validatePassword() {
+            password.value = password.value.trim();
+
+            if (password.value === "") {
+                password.classList.add("ring")
+                password.nextElementSibling.innerHTML = "*password is empty!"
+                return false;
+            }
+            if (password.value.length < 8) {
+                password.classList.add("ring")
+                password.nextElementSibling.innerHTML = "*Minimum eight digits required";
+                return false;
+            }
+
+            let countOfLowerCase = 0;
+            let countOfSpecialChar = 0;
+            let countOfNumbers = 0;
+            let countOfUpperCase = 0;
+            let countOfSpace = 0;
+
+
+            const containsUppercase = (ch) => /[A-Z]/.test(ch);
+            const containsLowercase = (ch) => /[a-z]/.test(ch);
+            const containsSpecialChar = (ch) =>
+                /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(ch);
+
+
+            for (let i = 0; i < password.value.length; i++) {
+                let ch = password.value.charAt(i);
+                if (ch === " ") countOfSpace++;
+                else if (!isNaN(+ch)) countOfNumbers++;
+                else if (containsUppercase(ch)) countOfUpperCase++;
+                else if (containsLowercase(ch)) countOfLowerCase++;
+                else if (containsSpecialChar(ch)) countOfSpecialChar++;
+            }
+
+            if (countOfSpace > 0) {
+                password.classList.add("ring")
+                password.nextElementSibling.innerHTML = "*Password must not contain spaces";
+                return false;
+            }
+
+            if (countOfNumbers < 1) {
+                password.classList.add("ring")
+                password.nextElementSibling.innerHTML = "*Password must contain Number digit";
+                return false;
+            }
+            if (countOfUpperCase < 1) {
+                password.classList.add("ring")
+                password.nextElementSibling.innerHTML = "*Password must contain Uppercase character";
+                return false;
+            }
+            if (countOfLowerCase < 1) {
+                password.classList.add("ring")
+                password.nextElementSibling.innerHTML = "*Password must contain Lowercase character";
+                return false;
+            }
+            if (countOfSpecialChar < 1) {
+                password.classList.add("ring")
+                password.nextElementSibling.innerHTML = "*Password must contain Special Characters";
+                return false;
+            }
+            password.classList.remove("ring")
+            password.nextElementSibling.innerHTML = ""
+            return true;
+        }
+    </script>
