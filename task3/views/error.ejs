@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error: <%= message %>
+    </title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: rgb(30, 16, 16);
+            opacity: .9;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            opacity: .8;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        <%= message %>
+    </h1>
+    <h2>
+        <%= error.status %>
+    </h2>
+    <pre><%= error.stack %></pre>
+</body>
+
+</html>

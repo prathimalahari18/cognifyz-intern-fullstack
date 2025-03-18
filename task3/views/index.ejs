@@ -1,0 +1,249 @@
+<% layout('boilerplate') -%>
+  <style>
+    .form-container {
+      background: #e0e0e0;
+      box-shadow: 20px 20px 60px #bebebe,
+        -20px -20px 60px #ffffff;
+      margin: auto;
+      max-width: 800px;
+      width: 100%;
+      padding: 20px 30px;
+      border-radius: 10px;
+      margin-top: 10rem;
+    }
+
+    .form-container h1 {
+      font-weight: 600;
+      text-align: center;
+    }
+
+    div {
+      margin-block: 1rem;
+    }
+
+    label {
+      font-size: 16px;
+      display: block;
+      font-size: 1.25rem;
+      opacity: .9;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 5px 10px;
+      font-size: 1.24em;
+      margin-top: 5px;
+    }
+
+    ::placeholder {
+      font-size: 1rem;
+    }
+
+    .book-container {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 5px;
+    }
+
+    .book-container div {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: .2rem;
+    }
+
+    .book-container input {
+      margin: 0;
+    }
+
+    button {
+      background-color: rgb(71, 71, 238);
+      color: white;
+      font-size: 1.6rem;
+      border-radius: 5px;
+      padding: 5px 2rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: rgb(83, 83, 210);
+    }
+
+    p {
+      font-size: 1rem;
+      margin-top: 8px;
+      font-weight: 400;
+      color: rgb(231, 75, 75);
+      font-family: sans-serif;
+    }
+
+    .ring:focus {
+      outline: solid 2px rgb(203, 67, 95);
+    }
+
+    .line {
+      padding: 2px;
+      background-color: crimson;
+      margin: auto;
+      width: 60%;
+      animation: grow 3s ease-out .2s infinite;
+    }
+
+    @keyframes grow {
+      0% {
+        opacity: 0;
+        width: 0;
+      }
+
+      30% {
+        width: 50%;
+        opacity: .9;
+      }
+
+      50% {
+        width: 30%;
+        opacity: .7;
+      }
+
+      70% {
+        width: 50%;
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        width: 0;
+      }
+    }
+  </style>
+
+  <div class="form-container" id="create-new">
+    <h1 id="heading">Create your account</h1>
+    <div class="line"></div>
+
+    <form id="formm" action="/" method="post" onsubmit="return validate()">
+      <div>
+        <label for="username">Username</label>
+        <input type="text" name="username" placeholder="@Username" id="username" />
+        <p></p>
+      </div>
+
+      <div>
+        <label for="email">Email</label>
+        <input type="email" name="email" placeholder="you@example.com" id="email" />
+        <p></p>
+      </div>
+
+      <div>
+        <label for="age">Age</label>
+        <input type="number" name="age" placeholder="Enter your age..." id="age" />
+        <p></p>
+      </div>
+
+      <div>
+        <label for="address">Address</label>
+        <textarea name="address" id="address" rows="3"></textarea>
+      </div>
+
+      <div>
+        <label>Books</label>
+        <div class="book-container">
+          <div>
+            <input type="checkbox" name="books" id="physics_book" value="physics" class="book-input" />
+            <label for="physics_book">Physics</label>
+          </div>
+
+          <div>
+            <input type="checkbox" name="books" id="chemistry_book" value="chemistry" class="book-input" />
+            <label for="chemistry_book">Chemistry</label>
+          </div>
+          <div>
+            <input type="checkbox" name="books" id="math_book" value="math" class="book-input" />
+            <label for="math_book">Mathmatics</label>
+          </div>
+        </div>
+      </div>
+      <div>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" placeholder="Password" id="password" class="password-input" />
+        <p></p>
+      </div>
+
+      <button type="submit">Sign up</button>
+
+    </form>
+  </div>
+  <script>
+    let password = document.getElementById("password");
+    let uname = document.getElementById("username");
+    let age = document.getElementById("age");
+    let email = document.getElementById("email");
+
+    function validate() {
+      let usernameValidation = validateUsername();
+      let passwordValidation = validatePassword();
+      let emailValidation = validateEmail();
+      let ageValidation = validateAge();
+
+      return usernameValidation && passwordValidation && emailValidation && ageValidation;
+    }
+
+    function validateEmail() {
+      if (email.value === "") {
+        email.classList.add("ring")
+        email.nextElementSibling.innerHTML = "*Email is required"
+        return false;
+      }
+      email.classList.remove("ring")
+      return true;
+    }
+    function validateAge() {
+      if (age.value < 16) {
+        age.classList.add("ring")
+        age.nextElementSibling.innerHTML = "*Age must be equal or greater than 16"
+        return false;
+      }
+      age.classList.remove("ring")
+      return true;
+    }
+
+    function validateUsername() {
+      let flag = true;
+      if (uname.value === "") {
+        uname.classList.add("ring");
+        uname.nextElementSibling.innerHTML = "*Username is empty!"
+        flag = false;
+      } else if (uname.value.length < 3) {
+        uname.classList.add("ring")
+        uname.nextElementSibling.innerHTML = "*Minimum three letters required"
+        flag = false;
+      } else {
+        flag = true;
+        uname.classList.remove("ring")
+        uname.nextElementSibling.innerHTML = ""
+      }
+      return flag
+    }
+
+    function validatePassword() {
+      let flag = true;
+      if (password.value === "") {
+        password.classList.add("ring")
+        password.nextElementSibling.innerHTML = "*password is empty!"
+        flag = false;
+      } else if (password.value.length < 8) {
+        password.classList.add("ring")
+        password.nextElementSibling.innerHTML = "*Minimum eight digits required";
+        flag = false;
+      } else {
+        flag = true;
+        password.classList.remove("ring")
+        password.nextElementSibling.innerHTML = "";
+      }
+
+      return flag;
+    }
+  </script>
