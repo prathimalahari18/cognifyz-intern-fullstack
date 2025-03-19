@@ -1,0 +1,24 @@
+<%- layout("./layouts/boilerplate.ejs") %>
+
+  <body>
+    <div class="row p-3">
+      <% for (let post of posts) { %>
+        <div class="p-2 col-12 col-md-6 col-lg-4 d-grid">
+          <div class="card w-full h-full">
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= post.title %>
+              </h5>
+              <p class="card-text all-post-card-content mb-3">
+                <%= post.content.slice(0,49) %>...
+              </p>
+              <a href="/posts/<%= post._id%>" class="btn btn-primary">Checkout</a>
+            </div>
+          </div>
+
+        </div>
+
+        <% } %>
+
+    </div>
+  </body>

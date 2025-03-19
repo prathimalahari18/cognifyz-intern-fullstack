@@ -1,0 +1,32 @@
+<%- layout("/layouts/boilerplate.ejs") %>
+  <div class="p-3">
+    <div class=" col-12 col-sm-8 col-md-6 mx-auto col-xl-5">
+      <div class="card text-center">
+        <div class="card-header">
+          Post id: <span class="text-uppercase text-secondary">
+            <%= post._id %>
+          </span>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-uppercase">
+            <%= post.title %>
+          </h5>
+          <p class="card-text text-capitalize">
+            <%= post.content %>
+          </p>
+          <div class="row">
+            <form action="/posts/<%= post._id%>/edit" method="get" class="col-6 row">
+              <button class="btn col-12 btn-success">Edit</button>
+            </form>
+
+            <form action="/posts/<%= post._id%>?_method=DELETE" class="col-6 row" method="post">
+              <button class="btn col-12 btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+        <div class="card-footer text-body-secondary">
+          This post was created by <span class="text-secondary fw-bold"><%- post.owner %></span>
+        </div>
+      </div>
+    </div>
+  </div>
