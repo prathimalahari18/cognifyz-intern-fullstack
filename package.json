@@ -1,0 +1,11 @@
+{
+  "name": "cognifyz-technology-internship-tasks",
+  "version": "1.0.0",
+  "description": "This is Tasks provided in the internship of Full stack developer By Cognifyz Technologies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Satyam Kumar Shah",
+  "license": "ISC"
+}
